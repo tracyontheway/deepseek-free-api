@@ -157,9 +157,7 @@ async function createSession(model: string, refreshToken: string): Promise<strin
   const token = await acquireToken(refreshToken);
   const result = await axios.post(
     "https://chat.deepseek.com/api/v0/chat_session/create",
-    {
-      character_id: null
-    },
+    {},
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -1224,7 +1222,7 @@ async function getThinkingQuota(refreshToken: string) {
 async function fetchAppVersion(): Promise<string> {
   try {
     logger.info('自动获取版本号');
-    const response = await axios.get('https://chat.deepseek.com/version.txt', {
+    const response = await axios.get('https://chat.deepseek.com/', {
       timeout: 5000,
       validateStatus: () => true,
       headers: {
@@ -1233,14 +1231,20 @@ async function fetchAppVersion(): Promise<string> {
       }
     });
     if (response.status === 200 && response.data) {
-      const version = response.data.toString().trim();
-      logger.info(`获取版本号: ${version}`);
-      return version;
+      // 从 HTML 中提取 commit-id
+      const html = response.data.toString();
+      const commitIdMatch = html.match(/<meta name="commit-id" content="([^"]+)">/);
+      if (commitIdMatch && commitIdMatch[1]) {
+        const version = commitIdMatch[1].substring(0, 8);
+        logger.info(`获取版本号: ${version}`);
+        return version;
+      }
     }
   } catch (err) {
     logger.error('获取版本号失败:', err);
   }
-  return "20241018.0";
+  // 使用默认版本号（从 FAKE_HEADERS 中获取或使用固定值）
+  return FAKE_HEADERS["X-App-Version"] || "20241129.1";
 }
 
 function autoUpdateAppVersion() {

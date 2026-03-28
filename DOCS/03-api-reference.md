@@ -170,6 +170,26 @@ GET /v1/models
 curl http://localhost:8000/v1/models
 ```
 
+**实际测试响应 (2026-03-28)**
+
+```json
+{
+  "data": [
+    {"id": "deepseek-chat", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-coder", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-think", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-r1", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-search", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-r1-search", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-think-search", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-r1-silent", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-search-silent", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-think-fold", "object": "model", "owned_by": "deepseek-free-api"},
+    {"id": "deepseek-r1-fold", "object": "model", "owned_by": "deepseek-free-api"}
+  ]
+}
+```
+
 ---
 
 ### 3. Token 状态检测
@@ -230,6 +250,26 @@ pong
 
 ```bash
 curl http://localhost:8000/ping
+```
+
+**实际测试响应 (2026-03-28)**
+
+```
+pong
+```
+
+服务启动日志：
+```
+[2026-03-28 14:39:35][success] Server initialized
+[2026-03-28 14:39:35][info] <<<< deepseek free server >>>>
+[2026-03-28 14:39:35][info] Version: 0.0.20
+[2026-03-28 14:39:35][info] Process id: 33180
+[2026-03-28 14:39:35][info] Environment: production
+[2026-03-28 14:39:35][info] Service name: deepseek-free-api
+[2026-03-28 14:39:35][success] Server listening on port 8000 (0.0.0.0)
+[2026-03-28 14:39:35][success] Service startup completed (5ms)
+[2026-03-28 14:39:36][info] 当前IP地址: 120.235.185.51
+[2026-03-28 14:39:36][info] 获取版本号: 6cf9c15d
 ```
 
 ---
