@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Free API - 免费智能对话 API 服务</title>
+    <meta name="description" content="DeepSeek Free API - 将 DeepSeek Chat 转换为 OpenAI 兼容 API，支持深度思考、联网搜索、流式输出">
+    <meta name="keywords" content="DeepSeek, API, AI, ChatGPT, OpenAI, Free API">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="logo-text">DeepSeek API</span>
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#features" class="nav-link">功能特性</a>
+                <a href="#models" class="nav-link">模型列表</a>
+                <a href="#demo" class="nav-link">在线演示</a>
+                <a href="#docs" class="nav-link">API 文档</a>
+                <a href="#deploy" class="nav-link">部署指南</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <a href="https://github.com/LLM-Red-Team/deepseek-free-api" target="_blank" class="nav-github">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+                <button class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="hero-gradient"></div>
+            <div class="hero-grid"></div>
+            <div class="hero-particles" id="particles"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>v0.0.20 正式发布</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="gradient-text">DeepSeek Free API</span>
+                <br>
+                <span class="subtitle">OpenAI 兼容的智能对话服务</span>
+            </h1>
+            <p class="hero-description">
+                将 DeepSeek Chat 转换为标准的 OpenAI API 格式<br>
+                支持深度思考、联网搜索、流式输出、多轮对话
+            </p>
+            <div class="hero-actions">
+                <a href="#demo" class="btn btn-primary">
+                    <span>开始体验</span>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="#docs" class="btn btn-secondary">
+                    <span>查看文档</span>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-value">10+</span>
+                    <span class="stat-label">支持模型</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">100%</span>
+                    <span class="stat-label">OpenAI 兼容</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">免费</span>
+                    <span class="stat-label">开源使用</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>向下滚动</span>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 功能特性 -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">功能特性</span>
+                <h2 class="section-title">强大而简洁的 API 服务</h2>
+                <p class="section-description">
+                    提供完整的 OpenAI API 兼容接口，支持多种高级功能
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">高速流式输出</h3>
+                    <p class="feature-description">
+                        支持 SSE 流式响应，实现打字机效果的实时输出，响应速度更快
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">深度思考</h3>
+                    <p class="feature-description">
+                        支持 R1 深度思考模型，进行复杂问题的深入分析和推理
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">联网搜索</h3>
+                    <p class="feature-description">
+                        实时联网获取最新信息，提供信息来源链接，确保答案时效性
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">多轮对话</h3>
+                    <p class="feature-description">
+                        支持上下文保持的多轮对话，通过 conversation_id 接续历史
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 21H16M12 17V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">OpenAI 兼容</h3>
+                    <p class="feature-description">
+                        完全兼容 OpenAI API 格式，无缝切换，支持所有主流 SDK
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">多 Token 支持</h3>
+                    <p class="feature-description">
+                        支持配置多个 Token 自动负载均衡，提升并发处理能力
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 模型列表 -->
+    <section class="models" id="models">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">模型列表</span>
+                <h2 class="section-title">支持多种 AI 模型</h2>
+                <p class="section-description">
+                    根据不同场景选择最适合的模型
+                </p>
+            </div>
+            <div class="models-table-container">
+                <table class="models-table">
+                    <thead>
+                        <tr>
+                            <th>模型名称</th>
+                            <th>功能</th>
+                            <th>思考过程</th>
+                            <th>联网搜索</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>deepseek-chat</code></td>
+                            <td>标准对话</td>
+                            <td><span class="status-no">-</span></td>
+                            <td><span class="status-no">-</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>deepseek-coder</code></td>
+                            <td>代码生成</td>
+                            <td><span class="status-no">-</span></td>
+                            <td><span class="status-no">-</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>deepseek-think</code></td>
+                            <td>深度思考</td>
+                            <td><span class="status-yes">显示</span></td>
+                            <td><span class="status-no">-</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>deepseek-search</code></td>
+                            <td>联网搜索</td>
+                            <td><span class="status-no">-</span></td>
+                            <td><span class="status-yes">支持</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>deepseek-r1-search</code></td>
+                            <td>思考+搜索</td>
+                            <td><span class="status-yes">显示</span></td>
+                            <td><span class="status-yes">支持</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>deepseek-r1-silent</code></td>
+                            <td>静默思考</td>
+                            <td><span class="status-partial">隐藏</span></td>
+                            <td><span class="status-no">-</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>deepseek-think-fold</code></td>
+                            <td>折叠思考</td>
+                            <td><span class="status-yes">折叠</span></td>
+                            <td><span class="status-no">-</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 在线演示 -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">在线演示</span>
+                <h2 class="section-title">立即体验 AI 对话</h2>
+                <p class="section-description">
+                    无需安装，直接在浏览器中体验 DeepSeek API
+                </p>
+            </div>
+            <div class="demo-container">
+                <div class="demo-sidebar">
+                    <div class="demo-config">
+                        <label class="config-label">API 地址</label>
+                        <input type="text" id="apiEndpoint" class="config-input" value="http://localhost:8000/v1" placeholder="输入 API 地址">
+                    </div>
+                    <div class="demo-config">
+                        <label class="config-label">Token</label>
+                        <input type="password" id="apiToken" class="config-input" placeholder="输入你的 DeepSeek Token">
+                    </div>
+                    <div class="demo-config">
+                        <label class="config-label">选择模型</label>
+                        <select id="modelSelect" class="config-select">
+                            <option value="deepseek-chat">deepseek-chat (标准对话)</option>
+                            <option value="deepseek-think">deepseek-think (深度思考)</option>
+                            <option value="deepseek-search">deepseek-search (联网搜索)</option>
+                            <option value="deepseek-r1-search">deepseek-r1-search (思考+搜索)</option>
+                            <option value="deepseek-r1-silent">deepseek-r1-silent (静默思考)</option>
+                        </select>
+                    </div>
+                    <div class="demo-config">
+                        <label class="config-label">流式输出</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="streamToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="demo-main">
+                    <div class="chat-container" id="chatContainer">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message assistant">
+                                <div class="message-avatar">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </div>
+                                <div class="message-content">
+                                    <p>你好！我是 DeepSeek AI 助手。请输入你的问题，我会尽力帮助你。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <textarea id="chatInput" class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
+                        <button class="chat-send" id="chatSend">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API 文档 -->
+    <section class="docs" id="docs">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">API 文档</span>
+                <h2 class="section-title">简洁易用的 API 接口</h2>
+                <p class="section-description">
+                    完全兼容 OpenAI API 格式，快速上手
+                </p>
+            </div>
+            <div class="docs-tabs">
+                <button class="docs-tab active" data-tab="chat">对话补全</button>
+                <button class="docs-tab" data-tab="models">模型列表</button>
+                <button class="docs-tab" data-tab="token">Token 检测</button>
+            </div>
+            <div class="docs-content">
+                <div class="docs-panel active" id="chat-panel">
+                    <div class="docs-info">
+                        <div class="docs-endpoint">
+                            <span class="method post">POST</span>
+                            <span class="path">/v1/chat/completions</span>
+                        </div>
+                        <p class="docs-description">创建对话补全，支持流式和非流式响应。</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>请求示例</span>
+                            <button class="copy-btn" data-copy="chat-code">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>复制</span>
+                            </button>
+                        </div>
+                        <pre id="chat-code"><code class="language-javascript">curl -X POST http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "model": "deepseek-chat",
+    "messages": [
+      {"role": "user", "content": "你好"}
+    ],
+    "stream": false
+  }'</code></pre>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>响应示例</span>
+                        </div>
+                        <pre><code class="language-json">{
+  "id": "50207e56-747e-4800-9068-c6fd618374ee@2",
+  "model": "deepseek-chat",
+  "object": "chat.completion",
+  "choices": [{
+    "index": 0,
+    "message": {
+      "role": "assistant",
+      "content": "你好！我是 DeepSeek AI 助手..."
+    },
+    "finish_reason": "stop"
+  }],
+  "usage": {
+    "prompt_tokens": 1,
+    "completion_tokens": 1,
+    "total_tokens": 2
+  }
+}</code></pre>
+                    </div>
+                </div>
+                <div class="docs-panel" id="models-panel">
+                    <div class="docs-info">
+                        <div class="docs-endpoint">
+                            <span class="method get">GET</span>
+                            <span class="path">/v1/models</span>
+                        </div>
+                        <p class="docs-description">获取所有可用模型列表。</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>请求示例</span>
+                            <button class="copy-btn" data-copy="models-code">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>复制</span>
+                            </button>
+                        </div>
+                        <pre id="models-code"><code class="language-bash">curl http://localhost:8000/v1/models</code></pre>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>响应示例</span>
+                        </div>
+                        <pre><code class="language-json">{
+  "data": [
+    {"id": "deepseek-chat", "object": "model", "owned_by": "deepseek"},
+    {"id": "deepseek-think", "object": "model", "owned_by": "deepseek"},
+    {"id": "deepseek-search", "object": "model", "owned_by": "deepseek"}
+  ]
+}</code></pre>
+                    </div>
+                </div>
+                <div class="docs-panel" id="token-panel">
+                    <div class="docs-info">
+                        <div class="docs-endpoint">
+                            <span class="method post">POST</span>
+                            <span class="path">/token/check</span>
+                        </div>
+                        <p class="docs-description">检测 Token 是否有效。</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>请求示例</span>
+                            <button class="copy-btn" data-copy="token-code">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>复制</span>
+                            </button>
+                        </div>
+                        <pre id="token-code"><code class="language-bash">curl -X POST http://localhost:8000/token/check \
+  -H "Content-Type: application/json" \
+  -d '{"token": "YOUR_TOKEN"}'</code></pre>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>响应示例</span>
+                        </div>
+                        <pre><code class="language-json">{
+  "live": true
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 部署指南 -->
+    <section class="deploy" id="deploy">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">部署指南</span>
+                <h2 class="section-title">多种部署方式</h2>
+                <p class="section-description">
+                    选择最适合你的部署方案
+                </p>
+            </div>
+            <div class="deploy-cards">
+                <div class="deploy-card">
+                    <div class="deploy-icon docker">
+                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.186.186 0 00-.185.186v1.887c0 .102.083.185.185.185zm-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.186.186 0 00-.185.185v1.888c0 .102.082.185.185.185zm0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.186.186 0 00-.185.185v1.887c0 .102.082.186.185.186zm-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186zm-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.186.186 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186zm5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.186.186 0 00-.185.186v1.887c0 .102.082.185.185.185zm-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.186v1.887c0 .102.083.185.185.185zm-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.185-.186h-2.12a.186.186 0 00-.185.186v1.887c0 .102.084.185.186.185zm-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.186v1.887c0 .102.082.185.185.185zM23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288z"/>
+                        </svg>
+                    </div>
+                    <h3 class="deploy-title">Docker 部署</h3>
+                    <p class="deploy-description">最简单的部署方式，一键启动</p>
+                    <div class="deploy-code">
+                        <code>docker run -d -p 8000:8000 vinlic/deepseek-free-api</code>
+                    </div>
+                </div>
+                <div class="deploy-card">
+                    <div class="deploy-icon vercel">
+                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24 22.525H0l12-21.05 12 21.05z"/>
+                        </svg>
+                    </div>
+                    <h3 class="deploy-title">Vercel 部署</h3>
+                    <p class="deploy-description">Serverless 部署，无需服务器</p>
+                    <div class="deploy-code">
+                        <code>vercel --prod</code>
+                    </div>
+                </div>
+                <div class="deploy-card">
+                    <div class="deploy-icon nodejs">
+                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z"/>
+                        </svg>
+                    </div>
+                    <h3 class="deploy-title">原生部署</h3>
+                    <p class="deploy-description">完整控制，灵活配置</p>
+                    <div class="deploy-code">
+                        <code>npm install && npm run build && npm start</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <span>DeepSeek Free API</span>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>文档</h4>
+                        <a href="DOCS/README.md">完整文档</a>
+                        <a href="#docs">API 参考</a>
+                        <a href="#deploy">部署指南</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>资源</h4>
+                        <a href="https://github.com/LLM-Red-Team/deepseek-free-api" target="_blank">GitHub</a>
+                        <a href="https://chat.deepseek.com/" target="_blank">DeepSeek 官网</a>
+                        <a href="https://platform.deepseek.com/" target="_blank">官方 API</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>社区</h4>
+                        <a href="https://github.com/LLM-Red-Team/deepseek-free-api/issues" target="_blank">问题反馈</a>
+                        <a href="https://github.com/LLM-Red-Team/deepseek-free-api/discussions" target="_blank">讨论区</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>仅供学习交流使用，请勿用于商业用途</p>
+                <p>© 2024 DeepSeek Free API. MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
